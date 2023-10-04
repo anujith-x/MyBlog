@@ -1,12 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
+import {useNavigate} from 'react-router-dom'
+
 
 const Login = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const navigate = useNavigate()
+  
+  const submitDetails = async () => {
+    const data = {
+      email,
+      password
+    }
+    try{
+      let response = await axios.post('http://localhost:4999/login', data)
+      if(response.data.success){
+        navigate('/profile')
+      }else{
+        navigate('/login')
+      }
+    }catch(err){
+      console.log(err);
+    }
+    
+    
+  }
+
   return (
     <div>
       <h1>Login Page</h1>
 
-      <form>
+      <div>
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">
             Email address
@@ -16,6 +42,9 @@ const Login = () => {
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <div id="emailHelp" class="form-text">
             We'll never share your email with anyone else.
@@ -29,6 +58,9 @@ const Login = () => {
             type="password"
             class="form-control"
             id="exampleInputPassword1"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div class="mb-3 form-check">
@@ -37,10 +69,10 @@ const Login = () => {
             Check me out
           </label>
         </div>
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary" onClick={submitDetails}>
           Login
         </button>
-      </form>
+      </div>
     </div>
   );
 };

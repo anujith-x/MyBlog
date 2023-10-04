@@ -36,6 +36,26 @@ app.post('/signup', async (req,res) => {
   }
 })
 
+app.post('/login', async (req, res) => {
+  const {email, password} = req.body
+  const fetchedUser = await userModel.findOne({email:email})
+  console.log(fetchedUser);
+  console.log(fetchedUser.email);
+  console.log(fetchedUser.password);
+  try{
+    if(fetchedUser.email && fetchedUser.password === password){
+      console.log('credentials are matching');
+      res.status(200).json({ success: true, message: 'Login successful' });
+    }else{
+      console.log("Invalid Credentials");
+    }
+  }catch(err){
+    console.log(err);
+    res.status(500).send("Internal Server Error")
+  }
+  
+})
+
 mongoose.connect(MongoDbUrl)
 .then(() => {
   console.log(`Database connection successful`)
