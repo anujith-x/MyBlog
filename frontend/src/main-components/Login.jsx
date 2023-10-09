@@ -17,9 +17,15 @@ const Login = () => {
     try{
       let response = await axios.post('http://localhost:4999/login', data)
       if(response.data.success){
+        console.log(response.data);
         navigate('/profile')
-      }else{
-        navigate('/login')
+      }else {
+        // navigate('/login')
+        return (
+          <Link to="/login">Go to Login</Link>
+        );
+        //Work needed in the case: credentials are false
+        //Work needed on both frontend and backend
       }
     }catch(err){
       console.log(err);

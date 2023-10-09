@@ -17,7 +17,6 @@ const Signup = () => {
     axios
       .post("http://localhost:4999/signup", data)
       .then(() => {
-        // navigate('/')
         console.log(`success`);
       })
       .catch((err) => {
